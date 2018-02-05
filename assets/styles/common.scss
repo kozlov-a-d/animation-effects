@@ -1,0 +1,10 @@
+.btn{
+    background: red;
+    background: red url('../images/icons/footer_mail.png') no-repeat;
+    @media (max-width: 480px) {
+        background: green;
+    }
+    @media (max-width: 768px) {
+        background: rgb(37, 56, 109);
+    }
+}
