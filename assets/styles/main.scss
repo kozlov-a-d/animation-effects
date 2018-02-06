@@ -17,4 +17,8 @@ body{
     background: rgb(141, 141, 141);
 }
 
+.dg.ac {
+    z-index: 99999 !important;
+}
+
 @import "triangles-moving.scss";
