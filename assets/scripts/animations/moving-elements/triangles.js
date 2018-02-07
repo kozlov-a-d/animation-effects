@@ -15,8 +15,10 @@ let drawTriangle = function(ctx, x1, y1 , x2, y2, x3, y3){
     ctx.closePath();
 
     // ctx.fillStyle = "rgba(222,4,4," + (0.6*1 + Math.random(9)/10)  + ")";
-    ctx.fillStyle = "rgba(222,4,4," + (0.4*1 + Math.abs(Math.cos(x1/100)/4) + Math.abs(Math.sin(y1/100)/4) )  + ")";
+    // ctx.fillStyle = "rgba(222,4,4," + (0.4*1 + Math.abs(Math.cos(x1/100)/4) + Math.abs(Math.sin(y1/100)/4) )  + ")";
+    ctx.fillStyle = "rgba(222,4,4," + (0)  + ")";
     // console.log(Math.abs(Math.sin(x1/100)/2))
+    ctx.strokeStyle = '#ffffff';
     ctx.stroke();
     ctx.fill();
 }
@@ -107,30 +109,91 @@ export default function triangles(options) {
 
     let settings = {
         animationTime: 2,
-        ease: 'linear'
+        animationEase: 'elastic',
+        animationEaseX: 0.75,
+        animationEaseY: 0.2,
     }
-    // let gui = new dat.GUI();
-    // gui.add(settings, 'animationTime', 0,5);
+    let gui = new dat.GUI();
+    let controllerAnimationTime = gui.add(settings, 'animationTime', 0,5);
+    let controllerAnimationEase = gui.add(settings, 'animationEase', [ 'elastic', 'linear', 'back', 'bounce' ]);
+    let controllerAnimationEaseX = gui.add(settings, 'animationEaseX', 0,3).step(0.1);
+    let controllerAnimationEaseY = gui.add(settings, 'animationEaseY', 0,3).step(0.1);
+
+    controllerAnimationTime.onFinishChange(function() { restartTimeline(tl) });
+    controllerAnimationEase.onChange(function(value) { 
+        settings.animationEase = value; 
+        changeEase(settings.animationEase, settings.animationEaseX, settings.animationEaseY );
+        restartTimeline(tl);
+    });
+    controllerAnimationEaseX.onFinishChange(function(value) { 
+        settings.animationEaseX = value; 
+        changeEase(settings.animationEase, settings.animationEaseX, settings.animationEaseY )
+        restartTimeline(tl);
+     });
+    controllerAnimationEaseY.onFinishChange(function(value) { 
+        settings.animationEaseY = value; 
+        changeEase(settings.animationEase, settings.animationEaseX, settings.animationEaseY );
+        restartTimeline(tl);
+    });
 
     // adding TimelineLite from GSAP
 	let tl = new TimelineLite({onComplete:function() {
         setTimeout(() => {
             this.restart();
-        }, 1000);
+        }, 500);
     }});
-// gui.add(cfg, 'springFactor', 0,0.5);
 
-    self.elements.forEach(function(item){
-        item.polylines.ease = Elastic.easeOut.config(0.75, 0.2);
-    });
-    
-    document.addEventListener('click', function(){
+    function restartTimeline(tl){
+        console.log(settings);
+        tl.progress(1).pause();  
+        tl.play(0); 
+        tl.clear();
+        tl
+            .to(state, settings.animationTime, self.elements[1].polylines) 
+            .to(state, settings.animationTime, self.elements[0].polylines,  settings.animationTime + 0.5);
+    }
+
+    function changeEase(ease, x, y){
+        switch(ease) {
+            case 'elastic':
+                self.elements.forEach(function(item){
+                    item.polylines.ease = Elastic.easeOut.config(x, y);
+                });
+                break;
+            
+            case 'linear':
+                self.elements.forEach(function(item){
+                    item.polylines.ease = Power0.easeNone;
+                });
+                break;
+            
+            case 'back':
+                self.elements.forEach(function(item){
+                    item.polylines.ease = Back.easeOut.config(x);
+                });
+                break;
+
+            case 'bounce':
+                self.elements.forEach(function(item){
+                    item.polylines.ease = Bounce.easeOut;
+                });
+                break;
+
+            default:
+                console.warn('nosearch ease');
+        }
+
         
-    });
+    }
+
+    
+
+    changeEase(settings.animationEase, 0.75, 0.2);
+    
 
     tl
         .to(state, settings.animationTime, self.elements[1].polylines) 
-        .to(state, settings.animationTime, self.elements[0].polylines,  settings.animationTime + 1)
+        .to(state, settings.animationTime, self.elements[0].polylines,  settings.animationTime + 0.5)
     
 
     // render current state
