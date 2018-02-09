@@ -8,8 +8,8 @@ const pages = [
         "template": "./pages/index.twig"
     },
     {
-        "filename": "../../triangles-svg.html",
-        "template": "./pages/page.twig"
+        "filename": "../../examples/moving-triangles.html",
+        "template": "./pages/examples/moving-triangles.twig"
     }
 ]
 module.exports = pages;

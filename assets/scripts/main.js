@@ -1,6 +1,6 @@
 require('../styles/main.scss');
 
-import triangles from './animations/moving-elements/triangles-test';
+import triangles from './animations/moving-elements/triangles';
 
  
 console.time('app');
@@ -8,7 +8,7 @@ console.time('app');
 triangles({
     // parent element
     root: document.querySelector('.js-triangle-moving'),
-    datGUI: false,
+    datGUI: true,
     // original svg
     elementsOriginal: [
         { // element 1
@@ -125,7 +125,6 @@ triangles({
                 273,63,227,150,349,88]
         }
     ]
-    
 
 });
 
