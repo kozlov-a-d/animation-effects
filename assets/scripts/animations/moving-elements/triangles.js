@@ -12,8 +12,8 @@ let drawTriangle = function(ctx, x1, y1 , x2, y2, x3, y3){
     ctx.lineTo(x3, y3);
     ctx.closePath();
 
-    ctx.fillStyle = "rgba(222,4,4," + (0.4*1 + Math.abs(Math.cos(x1/100)/4) + Math.abs(Math.sin(y1/100)/4) )  + ")";
-    // ctx.fillStyle = "rgba(222,4,4," + (0)  + ")";
+    // ctx.fillStyle = "rgba(222,4,4," + (0.4*1 + Math.abs(Math.cos(x1/100)/4) + Math.abs(Math.sin(y1/100)/4) )  + ")";
+    ctx.fillStyle = "rgba(222,4,4," + (0)  + ")";
     ctx.strokeStyle = '#000000';
     ctx.stroke();
     ctx.fill();
@@ -154,31 +154,36 @@ export default function triangles(options) {
 
     // adding TimelineLite from GSAP
 	let tl = new TimelineLite({
-        // onComplete:function() {
-        //     setTimeout(() => { this.restart(); }, 500);
-        // }
+        onComplete:function() {
+            setTimeout(() => { this.restart(); }, 500);
+        }
     });
 
     // set default ease
     changeEase(self.elements, self.settings.animationEase, 0.75, 0.2);
+
     
     // set default animation
     let animation = function(elements){
-        tl.clear();
-        // console.log('animation', elements[1].polylines);
+        console.log(elements);
+        // tl.clear();
+        // tl = new TimelineLite({
+        //     onComplete:function() {
+        //         setTimeout(() => { this.restart(); }, 500);
+        //     }
+        // });
         tl
             .to(state, self.settings.animationTime, elements[1].polylines) 
             .to(state, self.settings.animationTime, elements[0].polylines,  self.settings.animationTime + 0.5)
-            // tl.kill(state);
-            // tl
-            // .to(state, self.settings.animationTime, elements[1].polylines) 
-            // .to(state, self.settings.animationTime, elements[0].polylines,  self.settings.animationTime + 0.5)
+
+            // tl.play();
             
     }
     // animation start
     animation(self.elements);
 
-    // initialize dat.gui ( if need )
+
+    // initialize dat.gui ( if need )/*
     if(self.datGUI){
         let gui = new dat.GUI();
         let controllerAnimationTime = gui.add(self.settings, 'animationTime', 0,5);
@@ -186,21 +191,21 @@ export default function triangles(options) {
         let controllerAnimationEaseX = gui.add(self.settings, 'animationEaseX', 0,3).step(0.1);
         let controllerAnimationEaseY = gui.add(self.settings, 'animationEaseY', 0,3).step(0.1);
 
-        controllerAnimationTime.onFinishChange(function() { restartTimeline(tl, animation) });
+        controllerAnimationTime.onFinishChange(function() { restartTimeline(tl, animation(self.elements)) });
         controllerAnimationEase.onChange(function(value) { 
             self.settings.animationEase = value; 
             changeEase(self.elements, self.settings.animationEase, self.settings.animationEaseX, self.settings.animationEaseY );
-            restartTimeline(tl, animation);
+            restartTimeline(tl, animation(self.elements));
         });
         controllerAnimationEaseX.onFinishChange(function(value) { 
             self.settings.animationEaseX = value; 
             changeEase(self.elements, self.settings.animationEase, self.settings.animationEaseX, self.settings.animationEaseY )
-            restartTimeline(tl, animation);
+            restartTimeline(tl, animation(self.elements));
         });
         controllerAnimationEaseY.onFinishChange(function(value) { 
             self.settings.animationEaseY = value; 
             changeEase(self.elements, self.settings.animationEase, self.settings.animationEaseX, self.settings.animationEaseY );
-            restartTimeline(tl, animation);
+            restartTimeline(tl, animation(self.elements));
         });
     }
     
@@ -216,7 +221,7 @@ export default function triangles(options) {
 
     // render start
     render(state);
-
+    
 
     //========================================================================================
 
@@ -225,18 +230,23 @@ export default function triangles(options) {
         self.height = self.rootElement.offsetHeight ||  self.rootElement.clientHeight;
         canvas.width = self.width;
         canvas.height = self.height;
-        // console.log(self.width, self.height);
+        // // console.log(self.width, self.height);
         self.elements = transformTriangle(self.elements, self.elementsOriginal, self.width, self.height);
-        // console.log('resize', self.elements);
-        self.elements.forEach(function(item){
-            let voidValue = ( self.width + self.height ) / 4;
-            item.polylines = arrayUtility.padArray(item.polylines,54*6,voidValue);
-        });
-        let state = [];
-        self.elements[0].polylines.forEach(function(item, i, arr) {
-            state.push(item);
-        });
-        render(state);
+        // // console.log('resize', self.elements);
+        // self.elements.forEach(function(item){
+        //     let voidValue = ( self.width + self.height ) / 4;
+        //     item.polylines = arrayUtility.padArray(item.polylines,54*6,voidValue);
+        // });
+        // let state = [];
+        // self.elements[0].polylines.forEach(function(item, i, arr) {
+        //     state.push(item);
+        // });
+        // render(state);
+        animation(self.elements);
+
+
+
+        
         // tl.remove();
         // tl = new TimelineLite({
         //     onComplete:function() {
@@ -245,13 +255,13 @@ export default function triangles(options) {
         // });
         // tl.progress(0).pause().play(0).clear();
         
-        console.log('------------------');
-        console.log(tl);
-        tl.kill(state);
-        tl
-            .to(state, self.settings.animationTime, self.elements[1].polylines) 
-            .to(state, self.settings.animationTime, self.elements[0].polylines,  self.settings.animationTime + 0.5)
-        console.log(tl);
+        // console.log('------------------');
+        // console.log(tl);
+        // tl.kill(state);
+        // tl
+        //     .to(state, self.settings.animationTime, self.elements[1].polylines) 
+        //     .to(state, self.settings.animationTime, self.elements[0].polylines,  self.settings.animationTime + 0.5)
+        // console.log(tl);
         // animation(self.elements);
         // tl.restart();
 
