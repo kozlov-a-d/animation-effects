@@ -45,9 +45,12 @@ class MovingTriangles {
     // set base state
     setState(arr) {
         let state = this.state;
-        arr.polylines.forEach(function (item, i, arr) {
-            state.push(item);
-        });
+        if(arr){
+            arr.polylines.forEach(function (item, i, arr) {
+                state.push(item);
+            });
+        }
+        
     }
 
     drawTriangle(ctx, x1, y1, x2, y2, x3, y3) {
@@ -94,40 +97,42 @@ class MovingTriangles {
 
 }
 
-let transformTriangle = function (elements, elementsOriginal, containerWidth, containerHeight) {
+let transformTriangle = function transformTriangle(elements, elementsOriginal, containerWidth, containerHeight) {
     elements = [];
-    elementsOriginal.forEach(function (item, index) {
-        elements[index] = { polylines: [] }
+    if(elementsOriginal){
+        elementsOriginal.forEach(function (item, index) {
+            elements[index] = { polylines: [] }
 
-        let element = {
-            x: {
-                min: containerWidth,
-                max: 0,
-            },
-            y: {
-                min: containerHeight,
-                max: 0,
-            },
-            width: 0,
-            height: 0
-        }
-        // check size each figures
-        for (let i = 0; i < item.polylines.length; i += 2) {
-            element.x.min = (item.polylines[i] < element.x.min) ? item.polylines[i] : element.x.min;
-            element.x.max = (item.polylines[i] > element.x.max) ? item.polylines[i] : element.x.max;
-            element.y.min = (item.polylines[i + 1] < element.y.min) ? item.polylines[i + 1] : element.y.min;
-            element.y.max = (item.polylines[i + 1] > element.y.max) ? item.polylines[i + 1] : element.y.max;
-        }
-        // calculate element size
-        element.width = element.x.max - element.x.min;
-        element.height = element.y.max - element.y.min;
-        // calculate new position
-        for (let i = 0; i < item.polylines.length; i += 2) {
-            elements[index].polylines.push(item.polylines[i] - element.x.min + (containerWidth - element.width) / 2);
-            elements[index].polylines.push(item.polylines[i + 1] - element.y.min + (containerHeight - element.height) / 2);
-        }
+            let element = {
+                x: {
+                    min: containerWidth,
+                    max: 0,
+                },
+                y: {
+                    min: containerHeight,
+                    max: 0,
+                },
+                width: 0,
+                height: 0
+            }
+            // check size each figures
+            for (let i = 0; i < item.polylines.length; i += 2) {
+                element.x.min = (item.polylines[i] < element.x.min) ? item.polylines[i] : element.x.min;
+                element.x.max = (item.polylines[i] > element.x.max) ? item.polylines[i] : element.x.max;
+                element.y.min = (item.polylines[i + 1] < element.y.min) ? item.polylines[i + 1] : element.y.min;
+                element.y.max = (item.polylines[i + 1] > element.y.max) ? item.polylines[i + 1] : element.y.max;
+            }
+            // calculate element size
+            element.width = element.x.max - element.x.min;
+            element.height = element.y.max - element.y.min;
+            // calculate new position
+            for (let i = 0; i < item.polylines.length; i += 2) {
+                elements[index].polylines.push(item.polylines[i] - element.x.min + (containerWidth - element.width) / 2);
+                elements[index].polylines.push(item.polylines[i + 1] - element.y.min + (containerHeight - element.height) / 2);
+            }
 
-    });
+        });
+    }
 
     return elements;
 }
@@ -203,9 +208,12 @@ export default function triangles(options) {
             }
         });
 
-        triangle.tl
+        if(triangle.elements[0]){
+            triangle.tl
             .to(triangle.state, self.settings.animationTime, triangle.elements[1].polylines)
             .to(triangle.state, self.settings.animationTime, triangle.elements[0].polylines, self.settings.animationTime + 0.5)
+        }
+       
 
         changeEase(triangle.elements, self.settings.animationEase, self.settings.animationX, self.settings.animationY);
 

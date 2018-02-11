@@ -10,6 +10,10 @@ const pages = [
     {
         "filename": "../../moving-triangles.html",
         "template": "./pages/moving-triangles.twig"
+    },
+    {
+        "filename": "../../generative-art-lines.html",
+        "template": "./pages/generative-art-lines.twig"
     }
 ]
 module.exports = pages;

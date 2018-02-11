@@ -1,10 +1,23 @@
-.btn{
-    background: red;
-    background: red url('../images/icons/footer_mail.png') no-repeat;
-    @media (max-width: 480px) {
-        background: green;
-    }
-    @media (max-width: 768px) {
-        background: rgb(37, 56, 109);
+.demo{
+    background: #151414;
+
+    canvas{ 
+        position: absolute;
+		width: 100%;
+		height: 100%;
+		left: 0;
+        top: 0;
+        &.generative-art-lines-2d{
+            width: 200px;
+            height: 200px;
+            @media (max-width:768px) {
+                width: 150px;
+                height: 150px;
+            }
+            @media (max-width:320px) {
+                width: 100px;
+                height: 100px;
+            }
+        }
     }
 }
