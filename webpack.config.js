@@ -1,6 +1,6 @@
 // http://dev-city.me/2017/08/31/webpack-config-example
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 const _ = require('lodash');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");

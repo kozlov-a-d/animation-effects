@@ -1,3 +1,46 @@
+// GLOBAL ------------------------------------------------------------------------------*/
+$mobile-view: 980px;
+$media-xs: 320px;      // iphone5 в портретной ориентации
+$media-sm: 480px;      // большине телефоны  в портретной ориентации + запас
+$media-md: 768px;      // планшеты в портретной ориентации / телефоны в альбомной
+$media-lg: 1024px;     // планшеты в альбомной ориентации
+$media-xl: 1280px;     // ширина контента широкого сайта ( 1170 например )
+
+$content-width: 1170px; // ширина контена
+$content-gap: 40px;    // боковой отступ контента ( на адаптиве )
+
+.l-wrapper,
+.l-main,
+.l-header,
+.l-footer{
+  width: 100%;
+  position: relative;
+}
+.l-wrapper{
+  flex: 1 0 auto;
+  overflow: hidden;
+}
+.l-header{
+  z-index: 10;
+}
+.l-main{
+  z-index: 5;
+}
+.l-footer{
+  overflow: hidden;
+}
+.l-container{
+  max-width: $content-width;
+  margin: 0 auto;
+  @include cfix();
+  
+  @media (max-width: ( $content-width + $content-gap * 2 ) ) {
+    width: auto;
+    max-width: 100%;
+    margin: 0 $content-gap;
+  }
+}
+ 
 .demo{
     background: #151414;
 

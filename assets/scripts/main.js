@@ -2,9 +2,12 @@ require('../styles/main.scss');
 
 import triangles from './animations/moving-elements/triangles';
 import lines from './animations/generative-art/lines';
+import { JellyScroll } from './animations/jelly/jelly-scroll';
 
  
 console.time('app');
+
+JellyScroll.init();
 
 if(document.querySelector('.js-triangle-moving')){
     triangles({

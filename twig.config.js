@@ -14,6 +14,10 @@ const pages = [
     {
         "filename": "../../generative-art-lines.html",
         "template": "./pages/generative-art-lines.twig"
+    },
+    {
+        "filename": "../../jelly.html",
+        "template": "./pages/jelly.twig"
     }
 ]
 module.exports = pages;
