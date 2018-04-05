@@ -8070,7 +8070,9 @@ __webpack_require__(15);
 
 console.time('app');
 
-_jellyScroll.JellyScroll.init();
+if (document.querySelector('.js-jelly-scroll')) {
+    _jellyScroll.JellyScroll.init();
+}
 
 if (document.querySelector('.js-triangle-moving')) {
     (0, _triangles2.default)({

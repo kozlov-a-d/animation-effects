@@ -7,7 +7,11 @@ import { JellyScroll } from './animations/jelly/jelly-scroll';
  
 console.time('app');
 
-JellyScroll.init();
+
+
+if(document.querySelector('.js-jelly-scroll')){
+    JellyScroll.init();
+}
 
 if(document.querySelector('.js-triangle-moving')){
     triangles({
