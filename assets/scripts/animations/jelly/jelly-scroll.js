@@ -76,14 +76,14 @@ export let JellyScroll = (function() {
 
     let addHandlerScroll = function(callback){
         document.addEventListener('wheel', function(e){
-            event.preventDefault();
+            e.preventDefault();
             callback(e);
         })
     }
 
     let addHandlerResize = function(callback){
         window.addEventListener('resize', function(e){
-            event.preventDefault();
+            e.preventDefault();
             callback(e);
         })
     }

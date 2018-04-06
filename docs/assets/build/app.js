@@ -8066,7 +8066,7 @@ var _jellyScroll = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(15);
+__webpack_require__(16);
 
 console.time('app');
 
@@ -61745,7 +61745,7 @@ exports.JellyScroll = undefined;
 
 var _normalizeWheel = __webpack_require__(14);
 
-var _decorators = __webpack_require__(17);
+var _decorators = __webpack_require__(15);
 
 var _gsap = __webpack_require__(0);
 
@@ -61823,14 +61823,14 @@ var JellyScroll = exports.JellyScroll = function () {
 
     var addHandlerScroll = function addHandlerScroll(callback) {
         document.addEventListener('wheel', function (e) {
-            event.preventDefault();
+            e.preventDefault();
             callback(e);
         });
     };
 
     var addHandlerResize = function addHandlerResize(callback) {
         window.addEventListener('resize', function (e) {
-            event.preventDefault();
+            e.preventDefault();
             callback(e);
         });
     };
@@ -62056,13 +62056,6 @@ function normalizeWheel( /*object*/event) /*object*/{
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 16 */,
-/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62148,6 +62141,12 @@ function throttle(func, ms) {
 
     return wrapper;
 }
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
